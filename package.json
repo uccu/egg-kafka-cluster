@@ -30,10 +30,11 @@
     "build": "tsc",
     "clean": "tsc -b --clean",
     "lint": "eslint config lib app.ts agent.ts index.ts --ext ts",
+    "dev": "egg-bin dev --port 8345",
     "test": "egg-bin test"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "files": [
     "config",
@@ -42,7 +43,7 @@
     "*.ts"
   ],
   "ci": {
-    "version": "18,20,22"
+    "version": "20"
   },
   "repository": {
     "type": "git",
