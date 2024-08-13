@@ -1,0 +1,61 @@
+{
+  "name": "egg-kafka-cluster",
+  "version": "0.1.0",
+  "description": "provides egg bindings for the kafka.",
+  "eggPlugin": {
+    "name": "kafkaCluster"
+  },
+  "keywords": [
+    "egg",
+    "kafka",
+    "egg-kafka"
+  ],
+  "dependencies": {
+    "node-rdkafka": "~3.1.0",
+    "lodash":"^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash":"^4.17.7",
+    "@eggjs/tsconfig": "~1.3.3",
+    "egg": "~3.27.1",
+    "egg-bin": "~6.10.0",
+    "eslint": "^8.57.0",
+    "egg-mock": "~5.12.5",
+    "mocha": "~10.7.0",
+    "@types/mocha": "~10.0.7",
+    "eslint-config-egg": "^14.0.0",
+    "cross-env": "^7.0.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "tsc -b --clean",
+    "ci": "egg-bin pkgfiles --check && npm run lint",
+    "lint": "eslint .",
+    "pkgfiles": "egg-bin pkgfiles",
+    "dev": "cross-env SERVER_IP=DEV_NODE egg-bin dev --port=3544",
+    "test": "egg-bin test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "config",
+    "app/extend",
+    "lib",
+    "*.js",
+    "*.ts"
+  ],
+  "ci": {
+    "version": "20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uccu/egg-kafka-cluster.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uccu/egg-kafka-cluster/issues"
+  },
+  "homepage": "https://github.com/uccu/egg-kafka-cluster#README",
+  "author": "cat@4moe.com",
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+logs/
+npm-debug.log
+node_modules/
+coverage/
+.idea/
+run/
+.DS_Store
+*.swp
+typings/
+app/
+*.js
+.vscode
+.docker/
+package-lock.json
+.npmrc
