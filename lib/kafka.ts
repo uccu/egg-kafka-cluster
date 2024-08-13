@@ -1,5 +1,5 @@
 import { Application, EggApplication } from 'egg';
-import { ConsumerStream, KafkaConsumer, Producer, ProducerGlobalConfig, ProducerStream, ProducerTopicConfig, SubscribeTopicList, WriteStreamOptions } from 'node-rdkafka';
+import { ConsumerGlobalConfig, ConsumerStream, KafkaConsumer, Producer, ProducerStream, ProducerGlobalConfig, ProducerTopicConfig, SubscribeTopicList, WriteStreamOptions } from 'node-rdkafka';
 import path from 'node:path';
 import { lowerFirst, isFunction, isArray } from 'lodash';
 
@@ -40,8 +40,12 @@ export class Kafka {
       }
     }
 
+    // metadata.broker.list
+    const consumerGlobalConfig:ConsumerGlobalConfig = {};
+    if (process.env.BROKER_LIST) consumerGlobalConfig['metadata.broker.list'] = process.env.BROKER_LIST;
+
     this.consumer = KafkaConsumer.createReadStream(
-      this.app.config.kafka.consumerGlobalConfig,
+      { ...this.app.config.kafka.consumerGlobalConfig, ...consumerGlobalConfig },
       this.app.config.kafka.consumerTopicConfig,
       this.app.config.kafka.readStreamOptions,
     );
@@ -63,10 +67,14 @@ export class Kafka {
   }
 
   initProducer(topic: string, opts?: { producerGlobalConfig?: ProducerGlobalConfig, producerTopicConfig?: ProducerTopicConfig, writeStreamOptions?: WriteStreamOptions }) {
+
+    const producerGlobalConfig: ProducerGlobalConfig = {};
+    if (process.env.BROKER_LIST) producerGlobalConfig['metadata.broker.list'] = process.env.BROKER_LIST;
+
     const stream = Producer.createWriteStream(
-      Object.assign(this.app.config.kafka.producerGlobalConfig, opts?.producerGlobalConfig),
-      Object.assign(this.app.config.kafka.producerTopicConfig, opts?.producerTopicConfig),
-      Object.assign({ topic }, this.app.config.kafka.writeStreamOptions, opts?.writeStreamOptions),
+      { ...this.app.config.kafka.producerGlobalConfig, ...producerGlobalConfig, ...opts?.producerGlobalConfig },
+      { ...this.app.config.kafka.producerTopicConfig, ...opts?.producerTopicConfig },
+      { topic, ...this.app.config.kafka.writeStreamOptions, ...opts?.writeStreamOptions },
     );
     this.producers.set(topic, stream);
 
