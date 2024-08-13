@@ -1,5 +1,5 @@
 import { Application, EggApplication } from 'egg';
-import { ConsumerStream, KafkaConsumer, Producer, ProducerGlobalConfig, ProducerStream, ProducerTopicConfig, WriteStreamOptions } from 'node-rdkafka';
+import { ConsumerStream, KafkaConsumer, Producer, ProducerGlobalConfig, ProducerStream, ProducerTopicConfig, SubscribeTopicList, WriteStreamOptions } from 'node-rdkafka';
 import path from 'node:path';
 import { lowerFirst, isFunction, isArray } from 'lodash';
 
@@ -53,6 +53,11 @@ export class Kafka {
       } catch (e) {
         this.app.logger.error('[mq-consume] MQ消费数据解析失败: %s, %s, %s', message.topic, message.value.toString(), e);
       }
+    });
+
+    this.consumer.consumer.once('subscribed', (topics: SubscribeTopicList) => {
+      this.app.logger.info('[mq-consume] MQ消费订阅成功: %s', topics.join(','));
+      this.app.emit('kafka:consumer-subscribed');
     });
 
   }

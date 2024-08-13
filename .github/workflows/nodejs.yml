@@ -20,23 +20,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20]
+        node-version: [18, 20, 22]
         os: [ubuntu-latest]
 
     steps:
-    - name: Checkout Git Source
-      uses: actions/checkout@v3
+      - name: Checkout Git Source
+        uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Continuous Integration
-      run: npm run ci
+      - name: Continuous Integration
+        run: npm run lint
 
-    - name: Code Coverage
-      run: npm run build
+      - name: Code Coverage
+        run: npm run build

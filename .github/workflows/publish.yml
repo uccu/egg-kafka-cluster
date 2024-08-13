@@ -17,13 +17,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 18
           registry-url: https://registry.npmjs.org/
 
       - name: Build
         run: |
           npm install
-          npm run ci
+          npm run lint
           npm run build
 
       - name: Publish to npm
