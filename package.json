@@ -1,6 +1,6 @@
 {
   "name": "egg-kafka-cluster",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "provides egg bindings for the kafka.",
   "eggPlugin": {
     "name": "kafkaCluster"
